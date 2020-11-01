@@ -1,18 +1,6 @@
 import numpy as np
-
-
-def strhex_to_bin_array(s):
-    b = bin(int(s, 16))[2:]
-    a = np.array(list(b), dtype=int)
-    return a
-
-
-def bin_array_to_strhex(a):
-    b = ""
-    for x in a:
-        b += str(x)
-    h = hex(int(b, 2))
-    return h
+from hexutils import *
+from attack import *
 
 
 def key_gen(i, k):
@@ -74,11 +62,20 @@ def main():
     x = encrypt(u, k, 17)
     uu = decrypt(x, k, 17)
 
-    print(x)
+    print("Encrypted text:")
+    #print(x)
     print(bin_array_to_strhex(x))
-
-    print(uu)
+    print("Decrypted text:")
+    #print(uu)
     print(bin_array_to_strhex(uu))
+
+    print("attack test")
+    a, b = find_mat(encrypt, 32)
+
+    print("matrix A:")
+    print(a)
+    print("matrix B:")
+    print(b)
 
 
 if __name__ == "__main__":
