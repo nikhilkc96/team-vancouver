@@ -19,27 +19,27 @@ def key_gen(i, k):
     l_k = k.shape[0]
     key = np.zeros((l_k,), dtype=int)
 
-    for j in range(l_k):
-        index = ((5 * i + j - 1) % l_k)  # the formula in the slide is 1-indexed
-        key[j] = k[index]
+    for j in range(1, l_k+1):
+        index = ((5 * i + j - 1) % l_k) + 1  # the formula in the slide is 1-indexed
+        key[j-1] = k[index-1]
 
     return key
 
 
 def f(k, i, y):
     l = y.shape[0]
-    w = np.zeros((l,), dtype=int)
-    for j in range(l):
+    w = np.zeros((l+1,), dtype=int)  # w is starts from index 1 for easier computation
+    for j in range(1, l+1):
         if j <= l / 2:
-            w[j] = y[j] ^ k[4*j - 3]
+            w[j] = y[j-1] ^ k[4*j - 3 -1]
         else:
-            w[j] = y[j] ^ k[4*j - 2*l]
-    return w
+            w[j] = y[j-1] ^ k[4*j - 2*l -1]
+    return w[1:]
 
 
 def encrypt(u, k, r):
-    z = u[:16]
-    y = u[16:]
+    y = u[:16]
+    z = u[16:]
 
     for i in range(r):
         round_key = key_gen(i+1, k)
@@ -48,13 +48,13 @@ def encrypt(u, k, r):
         z = y
         y = v
 
-    x = np.append(y, z)  # wrong way around since we did one more T in the for loop
+    x = np.append(z, y)  # wrong way around since we did one more T in the for loop
     return x
 
 
 def decrypt(x, k, r):
-    z = x[:16]
-    y = x[16:]
+    y = x[:16]
+    z = x[16:]
 
     for i in range(r):
         round_key = key_gen(r-i, k)  # inverted key sequence
@@ -63,7 +63,7 @@ def decrypt(x, k, r):
         z = y
         y = v
 
-    u = np.append(y, z)  # wrong way around since we did one more T in the for loop
+    u = np.append(z, y)  # wrong way around since we did one more T in the for loop
     return u
 
 
