@@ -1,10 +1,10 @@
 import numpy as np
 
 
-def strhex_to_bin_array(s):
+def strhex_to_bin_array(s, l):
 	b = bin(int(s, 16))[2:]
 	a = np.array(list(b), dtype=int)
-	pad = 32 - a.shape[0]
+	pad = l - a.shape[0]
 	a = np.pad(a, (pad, 0), 'constant')
 	return a
 
