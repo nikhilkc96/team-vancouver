@@ -81,7 +81,12 @@ def decrypt(x, k, r, l, f):
 	return u
 
 
+def most_frequent(List): 
+    return max(set(List), key = List.count)
+
+
 def main():
+
 	# ----- TASK 1 AND 2 ----
 	print("Linear Feistel")
 	k = strhex_to_bin_array('0x80000000', 32)
@@ -148,6 +153,30 @@ def main():
 	print(bin_array_to_strhex(x))
 	print("Decrypted text:")
 	print(bin_array_to_strhex(uu))
+
+	# ----- TASK 8 ----
+	print("\nMeet in the Middle attack")
+	print("Keypairs candidates")
+	total_matches = []
+	file1 = open('data/KPApairsVancouver_non_linear.hex', 'r')
+	lines = file1.readlines()
+	for line in lines:
+		l = line.split("\t")
+		p_txt = strhex_to_bin_array("0x"+l[0], 16)
+		c_txt = strhex_to_bin_array("0x"+l[1], 16)
+
+		# matches = meet_in_the_middle(1000, 1000, encrypt, decrypt, p_txt, c_txt, non_lin_f, 16)
+		matches = meet_in_the_middle(1000, 1000, encrypt, decrypt, p_txt, c_txt, non_lin_f, 16)
+		if not matches:
+			print("no matches found")
+		else:
+			for keypair in matches:
+				print("keypair: ", bin_array_to_strhex(keypair[0]), bin_array_to_strhex(keypair[1]))
+				total_matches.append(bin_array_to_strhex(keypair[0]) + " " + bin_array_to_strhex(keypair[1]))
+		
+	print("\nMost probable keypair")
+	print("keypair: ", most_frequent(total_matches))
+	
 
 
 if __name__ == "__main__":

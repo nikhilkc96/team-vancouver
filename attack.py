@@ -39,3 +39,26 @@ def find_key_kpa(a, b, u, x):
 	#print("key found: ", k)
 
 	return np.mod(k, 2)
+
+
+def meet_in_the_middle(n1, n2, enc, dec, u, x, f, l):
+	l1 = []
+	l2 = [] 
+	# generate n1 random guesses for k1 and the corresponding encrypted cyphertexts
+	while len(l1) < n1:
+		k1 = np.random.randint(0, 2, l, dtype=int)
+		x1 = enc(u, k1, 13, l, f)
+		l1.append([k1, x1])
+	# generate n2 random guesses for k2 and the corresponding decrypted plaintexts
+	while len(l2) < n2:
+		k2 = np.random.randint(0, 2, l, dtype=int)
+		u2 = dec(x, k2, 13, l, f)
+		l2.append([k2, u2])
+
+	# search for matches between x1 and u2
+	matches = []
+	for i in range(len(l1)):
+		for j in range(len(l2)):
+			if np.array_equal(l1[i][1], l2[j][1]):
+				matches.append([l1[i][0], l2[j][0]])
+	return matches
