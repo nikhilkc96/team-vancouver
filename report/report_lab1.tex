@@ -174,7 +174,14 @@ Then, using {\tt find\_key\_kpa} function for each pair, we checked the correctn
 With regards to the nearly linear Feistel cypher, we simply used the {\tt encrypt} function with a different round function implementation, called {\tt near\_lin\_f}. A similar process was followed with {\tt decrypt}.
 
 \section*{Task 6}
-topkek.txt	
+%topkek.txt	
+For task 6 we did not manage to find the exact matrices and the correct encryption key, but we created an algorithm that, with enough plaintext/ciphertext pairs, is able to find them in a much faster way than a brute force attack on the entire key space.\\
+We first noticed that the nearly-linear function was in the form {\tt f} $\wedge $ {\tt  x}, where f is the same function used in the linear implementation of the cipher and x is a chain of four $\lor$ operations.  {\tt  x} assumes value 0 only when all terms of the chain are equal to 0, 1 otherwise. Furthermore the value of {\tt  x} is important only when {\tt f} is equal to 1 due to the nature of the and operation.\\
+All considered it is possible to approximate the value of {\tt  x} with 1 committing an error only in the specific case where {\tt f} is equal to 1 and all terms of {\tt  x} are equal to 0. With this approximation the cipher becomes linear and it is possible to use the same algorithm used in task 3 to find the matrices A and B, assuming C the identity matrix.
+
+%insert matrices here!
+
+Using the same function used in task 4 it is possible to compute a guess for the value of the key used to encrypt each plaintext/ciphertext pair and then test it on all pairs to check if it is the correct one. Unfortunately given the 5 text pairs given we weren't able to find the correct key but the results are encouraging since the hamming distance between the real ciphertext and the ciphertext computed using the guessed key is as low as 3 bits. 
 
 \section*{Task 7}
 Similarly to Task 5, the non linear Feistel cypher implementation required just a different round function called {\tt non\_lin\_f}. Both the {\tt encrypt} and {\tt decrypt} function remained unchanged.
