@@ -103,7 +103,7 @@ def main():
 
 	# ----- TASK 3 ----
 	print("\nFind linear matrices")
-	a, b = find_mat(encrypt, 32, lin_f)
+	a, b = find_mat(encrypt, 17, 32, lin_f)
 
 	print("matrix A:")
 	print(a)
@@ -111,13 +111,13 @@ def main():
 	print(b)
 
 	# ----- TASK 4 ----
-	print("\ntest KPA attack")
-	tk = strhex_to_bin_array('0x12340050', 32)
-	tx = encrypt(u, tk, 17, 32, lin_f)
-	kk = find_key_kpa(a, b, u, tx)
-	print("key: ", bin_array_to_strhex(kk))
+	# print("\ntest KPA attack")
+	# tk = strhex_to_bin_array('0x12340050', 32)
+	# tx = encrypt(u, tk, 17, 32, lin_f)
+	# kk = find_key_kpa(a, b, u, tx)
+	# print("key: ", bin_array_to_strhex(kk))
 
-	print("KPA attack on file data")
+	print("KPA attack on linear cipher")
 	file1 = open('data/KPApairsVancouver_linear.hex', 'r')
 	lines = file1.readlines()
 	for line in lines:
@@ -140,6 +140,38 @@ def main():
 	print("Decrypted text:")
 	print(bin_array_to_strhex(uu))
 
+	# ----- TASK 6 ----
+	print("\nKPA attack on nearly-linear cipher")
+
+	a, b = find_mat(encrypt, 5, 32, lin_f)
+
+	file1 = open('data/KPApairsVancouver_nearly_linear.hex', 'r')
+	lines = file1.readlines()
+	keys = []
+	for line in lines:
+		l = line.split("\t")
+		p_txt = strhex_to_bin_array("0x" + l[0], 32)
+		c_txt = strhex_to_bin_array("0x" + l[1], 32)
+		kk = find_key_kpa(a, b, p_txt, c_txt)
+		keys.append(kk)
+		#print("key: ", bin_array_to_strhex(kk))
+
+	for test_k in keys:
+		correct = 0
+		for line in lines:
+			l = line.split("\t")
+			p_txt = strhex_to_bin_array("0x" + l[0], 32)
+			c_txt = strhex_to_bin_array("0x" + l[1], 32)
+			t_txt = encrypt(p_txt, test_k, 5, 32, near_lin_f)
+			if np.array_equal(t_txt, c_txt):
+				correct += 1
+		print("key: ", bin_array_to_strhex(test_k))
+		print("\t correctness: ", correct)
+		print("\t resulting: ", bin_array_to_strhex(t_txt))
+		print("\t hamming: ", np.count_nonzero(t_txt != c_txt))
+
+	
+
 	# ----- TASK 7 ----
 	print("\nNon-linear Feistel")
 	k = strhex_to_bin_array('0x369C', 16)
@@ -154,6 +186,7 @@ def main():
 	print(bin_array_to_strhex(uu))
 
 	# ----- TASK 8 ----
+	return  # prevent execution of task 8
 	print("\nMeet in the Middle attack")
 	print("Keypairs candidates")
 	total_matches = []

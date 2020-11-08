@@ -2,7 +2,7 @@ import numpy as np
 from hexutils import *
 
 
-def find_mat(enc, l, f):
+def find_mat(enc, r, l, f):
 	a = np.zeros((l, l), dtype=int)
 	b = np.zeros((l, l), dtype=int)
 
@@ -11,7 +11,7 @@ def find_mat(enc, l, f):
 	for j in range(l):
 		e = np.zeros((l,), dtype=int)
 		e[j] = 1
-		x = enc(u, e, 17, l, f)
+		x = enc(u, e, r, l, f)
 		x = x.reshape((32, 1))
 		a[:, j] = x[:, 0]
 
@@ -20,7 +20,7 @@ def find_mat(enc, l, f):
 	for j in range(l):
 		e = np.zeros((l,), dtype=int)
 		e[j] = 1
-		x = enc(e, k, 17, l, f)
+		x = enc(e, k, r, l, f)
 		x = x.reshape((32, 1))
 		b[:, j] = x[:, 0]
 
@@ -42,17 +42,18 @@ def find_key_kpa(a, b, u, x):
 
 
 def meet_in_the_middle(n1, n2, enc, dec, u, x, f, l):
+	r = 13  # number of rounds
 	l1 = []
 	l2 = []
 	# generate n1 random guesses for k1 and the corresponding encrypted cyphertexts
 	while len(l1) < n1:
 		k1 = np.random.randint(0, 2, l, dtype=int)
-		x1 = enc(u, k1, 13, l, f)
+		x1 = enc(u, k1, r, l, f)
 		l1.append([bin_array_to_strhex(k1), bin_array_to_strhex(x1)])
 	# generate n2 random guesses for k2 and the corresponding decrypted plaintexts
 	while len(l2) < n2:
 		k2 = np.random.randint(0, 2, l, dtype=int)
-		u2 = dec(x, k2, 13, l, f)
+		u2 = dec(x, k2, r, l, f)
 		l2.append([bin_array_to_strhex(k2), bin_array_to_strhex(u2)])
 
 	# search for matches between x1 and u2
@@ -69,6 +70,7 @@ def meet_in_the_middle(n1, n2, enc, dec, u, x, f, l):
 
 
 def meet_in_the_middle_sequential(n1, n2, enc, dec, u, x, f, l):
+	r = 13  # number of rounds
 	l1 = []
 	l2 = []
 	n1 = max(n1, 2 ** l)
@@ -76,12 +78,12 @@ def meet_in_the_middle_sequential(n1, n2, enc, dec, u, x, f, l):
 	# generate n1 random guesses for k1 and the corresponding encrypted cyphertexts
 	for i in range(n1):
 		k1 = hex(i)
-		x1 = enc(u, strhex_to_bin_array(k1, l), 13, l, f)
+		x1 = enc(u, strhex_to_bin_array(k1, l), r, l, f)
 		l1.append([k1, bin_array_to_strhex(x1)])
 
 	for i in range(n2):
 		k2 = hex(i)
-		u2 = dec(x, strhex_to_bin_array(k2, l), 13, l, f)
+		u2 = dec(x, strhex_to_bin_array(k2, l), r, l, f)
 		l2.append([k2, bin_array_to_strhex(u2)])
 
 	# search for matches between x1 and u2
