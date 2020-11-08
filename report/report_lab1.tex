@@ -84,11 +84,12 @@ The linear cryptanalysis KPA against the linear Feistel cypher is done using the
 
 To carry out the cryptanalysis on the five {\tt (u, x)} pairs provided to us in the file {\tt KPApairsVancouver\_linear.hex}, we firstly used the {\tt find\_mat} function to find the $A$ and $B$ matrices (which must be the same for all five pairs, since the encryption method is the same). They are:
 
-\begin{equation*}
+$$
 A = 
+\scriptsize
 \left[
-\setlength\extrarowheight{-20pt}
-\arraycolsep=1.4pt
+\setlength\extrarowheight{-50pt}
+\arraycolsep=1pt
 \begin{array}{*{32}c}
  0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0\\
   1 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
@@ -124,12 +125,13 @@ A =
   1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
 \end{array}
 \right]
-\end{equation*}
-\begin{equation*}
+$$
+$$
 B = 
+\scriptsize
 \left[
 \setlength\extrarowheight{-20pt}
-\arraycolsep=1.4pt
+\arraycolsep=1pt
 \begin{array}{*{32}c}
 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
   0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
@@ -165,7 +167,7 @@ B =
   0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
 \end{array}
 \right]
-\end{equation*}
+$$
 Then, using {\tt find\_key\_kpa} function for each pair, we checked the correctness of the guessed key, by observing that it is always the same and it maps each plaintext to the corresponding cyphertext. That is, $\hat{k} = k = ${\tt 55D9F224}.
 
 \section*{Task 5}
@@ -184,7 +186,9 @@ After generating the $k'$ and $k''$ random guesses using the {\tt numpy} \textit
 
 In order to get the key pair guess regarding the KPA attack on the five plaintex-cyphertext pairs in the {\tt KPApairsVancouver\_non\_linear.hex} document, we initially ran the function for only the first {\tt (u, x)} pair, using very high {\tt n1} and {\tt n2} parameters, finding some matches. Since at the end of the day we just needed the single most probable guess, we trimmed all the matches, checking if a certain matching key pair also worked for some of the other four {\tt (u, x)} pairs provided in the document: this was done by checking if  $x = E'_{\hat{k'_i}}(E''_{\hat{k''_j}}(u))$.\\
 Clearly, if a key pair worked for each of the five {\tt (u, x)} pairs, it is most likely the correct guess (even though it is still not certain), so when we found a $(\hat{k'}_i, \hat{k''}_j)$ that satisfied that last requirement we assumed that $\hat{k'}_i = k'_i$ and $\hat{k''}_j = k''_j$. In particular, our guess is $\hat{k'}_i = k'_i$ = {\tt 30C0} and $\hat{k''}_j = k''_j$ = {\tt 564D}.\\
-Since this algorithm uses random guesses to generate the key pairs, it is totally possible that at the end of the execution the correct key pair is not found. This scenario is especially common when {\tt n1} and {\tt n2} are much lower than the cardinality of the key space, but it is also present when they are close to the cardinality of the key space since the random function we used doesn't generate unique values. To overcome this issue, we created a {\tt meet\_in\_the\_middle\_sequential} function that tests the key pairs in sequential order, this function was particularly helpful during the testing phase of the algorithm and it could still be handy in case a result is needed with just one execution of the program. 
+
+Since the key pairs generation is randomic, it is totally possible that at the end of the execution the correct one is not found, both when {\tt n1}, {\tt n2} are much lower than the cardinality of the key space, and when they are close to it (since we do not generate unique values).\\
+To overcome this issue, we created the {\tt meet\_in\_the\_middle\_sequential} function that tests key pairs in a sequential order. This function is particularly helpful to test the algorithm and to secure a valid key pair result just running the program once. 
 
 
 \end{document}

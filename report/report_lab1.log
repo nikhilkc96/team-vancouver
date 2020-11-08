@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630) (preloaded format=pdflatex 2019.7.11)  6 NOV 2020 00:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630) (preloaded format=pdflatex 2019.7.11)  7 NOV 2020 21:51
 entering extended mode
 **./report_lab1.tex
 (report_lab1.tex
@@ -738,21 +738,28 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 80.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [2] [3]
-[4]
+)
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 89.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 131.
+
+
+[2] [3]
 
 Package caption Warning: Unused \captionsetup[table] on input line 15.
 See the caption package documentation for explanation.
 
-[5] (report_lab1.aux) ) 
+[4] (report_lab1.aux) ) 
 Here is how much of TeX's memory you used:
  25046 strings out of 493305
  630393 string characters out of 3136279
- 925584 words of memory out of 3000000
+ 926586 words of memory out of 3000000
  28174 multiletter control sequences out of 15000+200000
  9517 words of font info for 36 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,6n,96p,744b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 62i,8n,96p,744b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/am
 sfonts/cm/cmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsf
 onts/cm/cmcsc10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfo
@@ -767,9 +774,9 @@ pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb>
 ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Prog
 ram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Progra
 m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on report_lab1.pdf (6 pages, 281000 bytes).
+Output written on report_lab1.pdf (5 pages, 281838 bytes).
 PDF statistics:
- 83 PDF objects out of 1000 (max. 8388607)
+ 80 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  18 words of extra memory for PDF output out of 10000 (max. 10000000)
 
