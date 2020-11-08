@@ -111,12 +111,6 @@ def main():
 	print(b)
 
 	# ----- TASK 4 ----
-	# print("\ntest KPA attack")
-	# tk = strhex_to_bin_array('0x12340050', 32)
-	# tx = encrypt(u, tk, 17, 32, lin_f)
-	# kk = find_key_kpa(a, b, u, tx)
-	# print("key: ", bin_array_to_strhex(kk))
-
 	print("KPA attack on linear cipher")
 	file1 = open('data/KPApairsVancouver_linear.hex', 'r')
 	lines = file1.readlines()
@@ -144,6 +138,10 @@ def main():
 	print("\nKPA attack on nearly-linear cipher")
 
 	a, b = find_mat(encrypt, 5, 32, lin_f)
+	print("matrix A:")
+	print(a)
+	print("matrix B:")
+	print(b)
 
 	file1 = open('data/KPApairsVancouver_nearly_linear.hex', 'r')
 	lines = file1.readlines()
